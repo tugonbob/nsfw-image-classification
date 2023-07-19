@@ -36,7 +36,7 @@ def transforms(examples):
 
 if not os.path.exists("preprocessed_nsfw_detect.pt"):
     # Preprocess the dataset and save the preprocessed version
-    dataset = preprocess_dataset(dataset)
+    dataset = preprocess_dataset(dataset).with_format('torch')
 else:
     # Load the preprocessed dataset
     dataset = torch.load("preprocessed_nsfw_detect.pt").with_format('torch')

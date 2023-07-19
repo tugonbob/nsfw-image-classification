@@ -94,7 +94,7 @@ def train(checkpoint, starting_epoch, epochs, wan_db):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
-        description='MNIST handwritten number classification')
+        description='NSFW Detector')
     parser.add_argument('--checkpoint', type=str, default=None,
                         help="Path to your .pt model")
     parser.add_argument('--epochs', type=int, default=50,
