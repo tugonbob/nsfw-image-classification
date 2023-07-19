@@ -97,23 +97,36 @@ if __name__ == "__main__":
         description='NSFW Detector')
     parser.add_argument('--checkpoint', type=str, default=None,
                         help="Path to your .pt model")
-    parser.add_argument('--epochs', type=int, default=50,
+    parser.add_argument('--epochs', type=int, default=100,
                         help="Number of epochs you want to train for")
     parser.add_argument('--starting_epoch', type=int,
                         default=1, help="Starting point for epochs")
     parser.add_argument('--wandb', action='store_true',
                         help="Pass false, if you don't want to use wandb")
+    parser.add_argument('--resume_wandb_id', type=str,
+                        help="The id of the wandb run you want to resume")
     args = parser.parse_args()
 
     if args.wandb:
         print("Initializing wandb...")
+        if args.resume_wandb_id:
+            wandb.init(
+                project="nsfw-image-classification",
+                config={
+                    "learning_rate": 0.03,
+                    "architecture": "resnet18",
+                    "dataset": "deepghs/nsfw_detect",
+                    "epochs": args.epochs,
+                },
+                resume=True,
+            )
         wandb.init(
             project="nsfw-image-classification",
             config={
                 "learning_rate": 0.03,
                 "architecture": "resnet18",
                 "dataset": "deepghs/nsfw_detect",
-                "epochs": 50,
+                "epochs": args.epochs,
             },
         )
 
