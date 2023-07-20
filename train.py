@@ -9,13 +9,14 @@ import torch.nn as nn
 import wandb
 from dataset import dataset
 from resnet import resnet18
+from mobilenetv3 import mobilenetv3_large
 
 
 def train(checkpoint, starting_epoch, epochs, wan_db):
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     print(f"Using {device} processor")
 
-    model = resnet18.to(device)
+    model = mobilenetv3_large().to(device)
     optimizer = optim.Adam(model.parameters(), lr=0.003)
     loss_function = nn.CrossEntropyLoss()
 
@@ -114,20 +115,21 @@ if __name__ == "__main__":
                 project="nsfw-image-classification",
                 config={
                     "learning_rate": 0.03,
-                    "architecture": "resnet18",
+                    "architecture": "mobilenetv3_large",
                     "dataset": "deepghs/nsfw_detect",
                     "epochs": args.epochs,
                 },
                 resume=True,
             )
-        wandb.init(
-            project="nsfw-image-classification",
-            config={
-                "learning_rate": 0.03,
-                "architecture": "resnet18",
-                "dataset": "deepghs/nsfw_detect",
-                "epochs": args.epochs,
-            },
-        )
+        else:
+            wandb.init(
+                project="nsfw-image-classification",
+                config={
+                    "learning_rate": 0.03,
+                    "architecture": "mobilenetv3_large",
+                    "dataset": "deepghs/nsfw_detect",
+                    "epochs": args.epochs,
+                },
+            )
 
     train(args.checkpoint, args.starting_epoch, args.epochs, args.wandb)
